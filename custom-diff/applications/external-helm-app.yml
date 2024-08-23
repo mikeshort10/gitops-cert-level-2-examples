@@ -6,16 +6,6 @@ metadata:
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
-  ignoreDifferences:
-    - group: apps
-      kind: Deployment
-      jsonPointers:
-        - /metadata/annotations/creation
-    - group: ""
-      kind: Secret
-      jsonPointers:
-        - /data
-        - /stringData
   project: default
 
   source:
@@ -31,3 +21,13 @@ spec:
   syncPolicy:
     syncOptions:
       - CreateNamespace=true
+
+  ignoreDifferences:
+    - group: apps
+      kind: Deployment
+      jsonPointers:
+        - /metadata/annotations/creation
+    - kind: Secret
+      jsonPointers:
+        - /data
+        - /stringData
