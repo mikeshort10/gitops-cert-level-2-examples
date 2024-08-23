@@ -6,13 +6,22 @@ metadata:
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
+  ignoreDifferences:
+    - group: apps
+      kind: Deployment
+      jsonPointers:
+        - /metadata/annotations/creation
+    - group: apps
+      kind: Secret
+      jsonPointers:
+        - /data/my-password
   project: default
 
   source:
     repoURL: https://github.com/codefresh-contrib/gitops-cert-level-2-examples.git
     targetRevision: HEAD
     path: ./custom-diff/02-external-app
-   
+
   destination:
     server: https://kubernetes.default.svc
     namespace: example02
@@ -20,5 +29,4 @@ spec:
   # Sync policy
   syncPolicy:
     syncOptions:
-      - CreateNamespace=true  
-   
+      - CreateNamespace=true
